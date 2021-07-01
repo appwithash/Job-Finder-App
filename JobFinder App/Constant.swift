@@ -17,6 +17,7 @@ class FilterJobData : ObservableObject{
     @Published var subCategory : String = "Selected Sub Category"
     @Published var location : String = "selected Location"
     @Published var tags : [String] = []
+    @Published var isFilterApplied = false
     
     func showData(){
         print(category)

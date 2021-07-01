@@ -15,10 +15,9 @@ struct DashboardFilterView: View {
     ]
     var subCategoryList : [String] = ["Junior iOS developer","Senior iOS developer","Android developer", "React developer", "Project Manager",
        ]
+    @State  var selectedJobType = ["remote":false,"full-time":false,"part-time":false,"freelance":false,"contract":false]
+   
     
-    @State var isJobSelected : [Bool] = [false,false,false,false,false]
-    var SelectedJobType : [String] = ["remote","full-time","part-time","freelance","contract"]
-    var gridView : [GridItem] = [GridItem(.fixed(130), spacing: 1, alignment: .center)]
     var body: some View {
         VStack(spacing:Screen.maxWidth*0.05){
             Text("Set Filter").font(.custom("Verdana", size: 20)).padding(.top)
@@ -39,100 +38,112 @@ struct DashboardFilterView: View {
                     VStack{
                     HStack{
                             ZStack{
-                                if self.isJobSelected[0]{
+                                if self.selectedJobType["part-time"]!{
                                 RoundedRectangle(cornerRadius: 10.0)
                                  
-                                    .foregroundColor(self.isJobSelected[0] ? Color("orange") : .white)
+                                    .foregroundColor(self.selectedJobType["part-time"]! ? Color("orange") : .white)
                                     .frame( height: Screen.maxheight*0.055, alignment: .center)
                                 }else{
                                     RoundedRectangle(cornerRadius: 10.0)
-                                        .stroke(self.isJobSelected[0] ? .white : Color.gray)
+                                        .stroke(self.selectedJobType["part-time"]! ? .white : Color.gray)
                                 }
-                                Text("part-time").font(.custom("Verdana", size: 15)).foregroundColor(self.isJobSelected[0] ? .white : .black)
-                            }.onTapGesture {
-                                self.isJobSelected[0].toggle()
-                                if  self.isJobSelected[0]{
+                                Text("part-time").font(.custom("Verdana", size: 15)).foregroundColor(self.selectedJobType["part-time"]! ? .white : .black)
+                            } .frame( height: Screen.maxheight*0.055, alignment: .center)
+                            .onTapGesture {
+                                self.selectedJobType["part-time"]!.toggle()
+                                if self.selectedJobType["part-time"]!{
                                     self.jobFilter.tags.append("part-time")
+                                }else{
+                                 self.jobFilter.tags.removeAll{$0=="part-time"}
                                 }
                             }
                         ZStack{
-                            if self.isJobSelected[1]{
+                            if self.selectedJobType["full-time"]!{
                             RoundedRectangle(cornerRadius: 10.0)
-                                .foregroundColor(self.isJobSelected[1] ? Color("orange") : .white)
-                               
+                                .foregroundColor(self.selectedJobType["full-time"]! ? Color("orange") : .white)
+
                             }else{
                                 RoundedRectangle(cornerRadius: 10.0)
-                                    .stroke(self.isJobSelected[1] ? .white : Color.gray)
+                                    .stroke(self.selectedJobType["full-time"]! ? .white : Color.gray)
                             }
-                        Text("full-time").font(.custom("Verdana", size: 15)).foregroundColor(self.isJobSelected[1] ? .white : .black)
+                        Text("full-time").font(.custom("Verdana", size: 15)).foregroundColor(self.selectedJobType["full-time"]! ? .white : .black)
                         }
                         .frame( height: Screen.maxheight*0.055, alignment: .center)
                         .onTapGesture {
-                            self.isJobSelected[1].toggle()
-                            if  self.isJobSelected[1]{
+                            self.selectedJobType["full-time"]!.toggle()
+                            if  self.selectedJobType["full-time"]!{
                                 self.jobFilter.tags.append("full-time")
-                            }
+                            }else{
+                                self.jobFilter.tags.removeAll{$0=="full-time"}
+                               }
                         }
                         ZStack{
-                            if self.isJobSelected[2]{
+                            if self.selectedJobType["contract"]!{
                             RoundedRectangle(cornerRadius: 10.0)
-                                .foregroundColor(self.isJobSelected[2] ? Color("orange") : .white)
-                               
+                                .foregroundColor(self.selectedJobType["contract"]! ? Color("orange") : .white)
+
                             }else{
                                 RoundedRectangle(cornerRadius: 10.0)
-                                    .stroke(self.isJobSelected[2] ? .white : Color.gray)
+                                    .stroke(self.selectedJobType["contract"]! ? .white : Color.gray)
                             }
-                        Text("contract").font(.custom("Verdana", size: 15)).foregroundColor(self.isJobSelected[2] ? .white : .black)
+                        Text("contract").font(.custom("Verdana", size: 15)).foregroundColor(self.selectedJobType["contract"]! ? .white : .black)
                         }   .frame( height: Screen.maxheight*0.055, alignment: .center)
                         .onTapGesture {
-                            self.isJobSelected[2].toggle()
-                            if  self.isJobSelected[2]{
+                            self.selectedJobType["contract"]!.toggle()
+                            if  self.selectedJobType["contract"]!{
                                 self.jobFilter.tags.append("contract")
-                            }
+                            }else{
+                                self.jobFilter.tags.removeAll{$0=="contract"}
+                               }
                         }
                       
                     }
                         HStack{
                         ZStack{
-                            if self.isJobSelected[3]{
+                            if self.selectedJobType["remote"]!{
                             RoundedRectangle(cornerRadius: 10.0)
-                                .foregroundColor(self.isJobSelected[3] ? Color("orange") : .white)
-                               
+                                .foregroundColor(self.selectedJobType["remote"]! ? Color("orange") : .white)
+
                             }else{
                                 RoundedRectangle(cornerRadius: 10.0)
-                                    .stroke(self.isJobSelected[3] ? .white : Color.gray)
+                                    .stroke(self.selectedJobType["remote"]! ? .white : Color.gray)
                             }
-                        Text("remote").font(.custom("Verdana", size: 15)).foregroundColor(self.isJobSelected[3] ? .white : .black)
-                            
+                        Text("remote").font(.custom("Verdana", size: 15)).foregroundColor(self.selectedJobType["remote"]! ? .white : .black)
+
                         }  .frame( height: Screen.maxheight*0.055, alignment: .center)
                         .onTapGesture {
-                            self.isJobSelected[3].toggle()
-                            if  self.isJobSelected[3]{
+                            self.selectedJobType["remote"]!.toggle()
+                            if  self.selectedJobType["remote"]!{
                                 self.jobFilter.tags.append("remote")
-                            }
+                            }else{
+                                self.jobFilter.tags.removeAll{$0=="remote"}
+                               }
                         }
                             ZStack{
-                                if self.isJobSelected[4]{
+                                if self.selectedJobType["freelance"]!{
                                 RoundedRectangle(cornerRadius: 10.0)
-                                 
-                                    .foregroundColor(self.isJobSelected[4] ? Color("orange") : .white)
-                                 
+
+                                    .foregroundColor(self.selectedJobType["freelance"]! ? Color("orange") : .white)
+
                                 }else{
                                     RoundedRectangle(cornerRadius: 10.0)
-                                        .stroke(self.isJobSelected[4] ? .white : Color.gray)
+                                        .stroke(self.selectedJobType["freelance"]! ? .white : Color.gray)
                                 }
-                            Text("freelance").font(.custom("Verdana", size: 15)).foregroundColor(self.isJobSelected[4] ? .white : .black)
+                            Text("freelance").font(.custom("Verdana", size: 15)).foregroundColor(self.selectedJobType["freelance"]! ? .white : .black)
                             }  .frame( height: Screen.maxheight*0.055, alignment: .center)
                             .onTapGesture {
-                                self.isJobSelected[4].toggle()
-                                if  self.isJobSelected[4]{
+                                self.selectedJobType["freelance"]!.toggle()
+                                if  self.selectedJobType["freelance"]!{
                                     self.jobFilter.tags.append("freelance")
-                                }
+                                }else{
+                                    self.jobFilter.tags.removeAll{$0=="freelance"}
+                                   }
                             }
                         }
                         Button(action: {
                             self.presentationMode.wrappedValue.dismiss()
                             self.jobFilter.showData()
+                            self.jobFilter.isFilterApplied = true
                         }, label: {
                             ZStack{
                                 RoundedRectangle(cornerRadius: 10.0)
@@ -145,7 +156,14 @@ struct DashboardFilterView: View {
                 }.padding(.leading,Screen.maxWidth*0.06).padding(.trailing,Screen.maxWidth*0.06)
             })
             Spacer()
-        }
+        }.onAppear{
+            for (key,_) in self.selectedJobType{
+                if self.jobFilter.tags.contains(key){
+                    self.selectedJobType[key] = true
+                }
+                }
+            }
+        
     }
 }
 
@@ -212,6 +230,6 @@ struct Category : Identifiable{
 
 struct DashboardFilterView_Previews: PreviewProvider {
     static var previews: some View {
-        DashboardFilterView()
+        DashboardFilterView().environmentObject(FilterJobData())
     }
 }

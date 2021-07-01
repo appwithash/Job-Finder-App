@@ -12,6 +12,7 @@ struct DashboardView: View {
     @State var isLoading = false
     @State var isFilterTapped = false
     @EnvironmentObject var jobFilter : FilterJobData
+
     var body: some View {
         ZStack{
             Color("dashboardBackground").ignoresSafeArea()
@@ -63,6 +64,33 @@ struct DashboardView: View {
                     ZStack{
                         RoundedRectangle(cornerRadius: 15)
                             .frame(width: Screen.maxWidth*0.15, height: Screen.maxheight*0.07, alignment: .center)
+                        HStack(spacing:3){
+                            ZStack{
+                            Capsule().frame(width: Screen.maxWidth*0.007, height: Screen.maxheight*0.025, alignment: .center)
+                                .foregroundColor(.white)
+                                Circle().fill(Color.white)
+                                    .frame(width: Screen.maxWidth*0.015, height:  Screen.maxWidth*0.015, alignment: .center)
+                                    .offset( y: 5)
+                            }
+                            ZStack{
+                            Capsule().frame(width: Screen.maxWidth*0.007, height: Screen.maxheight*0.025, alignment: .center)
+                                .foregroundColor(.white)
+                                Circle().fill(Color.white)
+                                    .frame(width: Screen.maxWidth*0.015, height:  Screen.maxWidth*0.015, alignment: .center)
+                                    .offset( y: -5)
+                            }
+                            ZStack{
+                            Capsule().frame(width: Screen.maxWidth*0.007, height: Screen.maxheight*0.025, alignment: .center)
+                                .foregroundColor(.white)
+                                Circle().fill(Color.white)
+                                    .frame(width: Screen.maxWidth*0.015, height:  Screen.maxWidth*0.015, alignment: .center)
+                                    .offset( y: 5)
+                            }
+                        }
+                        Circle().frame(width: Screen.maxWidth*0.02, height: Screen.maxWidth*0.02, alignment: .center)
+                            .foregroundColor(Color("orange"))
+                            .offset(x: Screen.maxWidth*0.04, y: -Screen.maxWidth*0.035)
+                            .opacity(self.jobFilter.isFilterApplied ? 1 : 0)
                     }
                     .onTapGesture {
                         self.isFilterTapped=true
@@ -238,6 +266,6 @@ struct PopularJobCell : View{
 }
 struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        DashboardView()
+        DashboardView().environmentObject(FilterJobData())
     }
 }
