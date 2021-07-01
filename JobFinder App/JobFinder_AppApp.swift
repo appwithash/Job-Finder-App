@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct JobFinder_AppApp: App {
+   var  jobFilter  = FilterJobData()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(jobFilter)
         }
     }
 }
