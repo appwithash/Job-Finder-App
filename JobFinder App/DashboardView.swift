@@ -11,6 +11,7 @@ struct DashboardView: View {
     @State var searchText = ""
     @State var isLoading = false
     @State var isFilterTapped = false
+    @State var searchTapped = false
     @EnvironmentObject var jobFilter : FilterJobData
 
     var body: some View {
@@ -36,11 +37,16 @@ struct DashboardView: View {
                         .rotationEffect(.degrees(180))
                 }
             }.padding(.leading,Screen.maxWidth*0.07).padding(.trailing,Screen.maxWidth*0.07)
+                
             ScrollView(.vertical, showsIndicators: false){
                 VStack(alignment:.leading){
             VStack(alignment:.leading){
-            Text("Hi Ashutosh,").font(.custom("Verdana", size: 30)).unredacted()
-            Text("Find your Dream Job").font(.custom("Verdana", size: 30)).unredacted()
+                if !self.searchTapped{
+                    Text("Hi Ashutosh,").font(.custom("Verdana", size: 30)).unredacted().animation(.easeIn)
+            Text("Find your Dream Job").font(.custom("Verdana", size: 30)).unredacted().animation(.easeIn)
+                }else{
+                    Text("Browse Job").font(.custom("Verdana", size: 30)).unredacted().animation(.easeIn)
+                }
             }.padding(.top).padding(.bottom).padding(.trailing).padding(.leading,Screen.maxWidth*0.07)
                 HStack(spacing:Screen.maxWidth*0.04){
                     ZStack{
@@ -59,6 +65,9 @@ struct DashboardView: View {
                             }.rotationEffect(.degrees(-45))
                         TextField( "Search job", text: $searchText)
                             .frame(width: Screen.maxWidth*0.5, height: Screen.maxheight*0.07, alignment: .center).unredacted()
+                            .onTapGesture {
+                                self.searchTapped=true
+                            }
                         }
                     }
                     ZStack{
@@ -100,8 +109,10 @@ struct DashboardView: View {
                     })
                 }.padding(.leading,Screen.maxWidth*0.07)
                 
-                Text("Popular Company").font(.custom("Verdana", size: 15)).unredacted()
+                    Text(searchTapped ? "popular Jobs" : "Popular Company").font(.custom("Verdana", size: 15)).unredacted()
                     .padding(.top).padding(.bottom).padding(.leading,Screen.maxWidth*0.07)
+                    if !self.searchTapped{
+                    VStack(alignment:.leading){
                     ScrollView(.horizontal, showsIndicators: false, content: {
                     PopularJobView().padding(.leading,Screen.maxWidth*0.07)
                     })
@@ -111,13 +122,17 @@ struct DashboardView: View {
                 RecentJobView()
                     .padding(.leading,Screen.maxWidth*0.07)
                     .padding(.trailing,Screen.maxWidth*0.07)
+                    }.overlay(SearchOverlayView().opacity(self.searchTapped ? 1 : 0))
             Spacer()
-            }
+                }else{
+                    SearchOverlayView()
+                }
+                }
             }
             }.redacted(reason: isLoading ? .placeholder : [])
             .onAppear{
                 self.isLoading=true
-                DispatchQueue.main.asyncAfter(deadline: .now()+3, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now()+2, execute: {
                     self.isLoading=false
                 })
             }
@@ -126,34 +141,26 @@ struct DashboardView: View {
     
 }
 
-struct RecentJob : Identifiable{
-    let id = UUID()
-    let jobPostion : String
-    let comanyName : String
-    let jobType : String
-    let imageName : String
-}
 
 struct  RecentJobView : View {
-    var recentJobList : [RecentJob] = [
-        RecentJob(jobPostion: "junior iOS developer", comanyName: "soundcloud", jobType: "remote", imageName: "soundcloud"),
-        RecentJob(jobPostion: "iOS developer", comanyName: "linkedIn", jobType: "part-time", imageName: "linkedin"),
-        RecentJob(jobPostion: "UI/UX designer", comanyName: "Uber", jobType: "full-time", imageName: "uber"),
-        RecentJob(jobPostion: "Senior iOS developer", comanyName: "Swiggy", jobType: "remote", imageName: "swiggy"),
-        RecentJob(jobPostion: "junior iOS developer", comanyName: "zomato", jobType: "full-time", imageName: "zomato"),
-        
-    ]
+    var recentJobList : [Job] = [
+        Job(companyLogo: "nike", companyName: "Nike", aboutCompany: "Nike is a company", jobTitle: "Buisness Analysist", minSalary: 70, maxSalary: 90, jobType: "remote", place: "Mumbai", tags: ["Buisness","Nike","remote"], theme: .black),
+        Job(companyLogo: "zomato", companyName: "Zomato", aboutCompany: "Zomato is a company", jobTitle: "Android Developer", minSalary: 80, maxSalary: 120, jobType: "Full-time", place: "Banglore", tags: ["Buisness","Nike","full-time"], theme: .white),
+        Job(companyLogo: "amazon", companyName: "Amazon", aboutCompany: "Amazon is a ecommerce company", jobTitle: "Logo Designer", minSalary: 70, maxSalary: 80, jobType: "contract", place: "Mumbai", tags: ["Designer","UI/UX","Logo"], theme: .black),
+        Job(companyLogo: "swiggy", companyName: "Swiggy", aboutCompany: "Swiggy is a company", jobTitle: "iOS Developer", minSalary: 90, maxSalary: 110, jobType: "full-time", place: "Mumbai", tags: ["Buisness","Nike","full-time"], theme: .white),
+        Job(companyLogo: "linkedin", companyName: "LinkedIn", aboutCompany: "LinkedIn is a company", jobTitle: "Buisness Analysist", minSalary: 70, maxSalary: 90, jobType: "consultant", place: "Mumbai", tags: ["Buisness","LinkedIn","consultant"], theme: .white),
+]
     var body : some View{
         VStack{
             ForEach(recentJobList){job in
-                RecentJobCell(job: job)
+                JobCell(job: job)
             }
         }
     }
 }
 
-struct  RecentJobCell : View {
-    let job : RecentJob
+struct  JobCell : View {
+    let job : Job
     var body : some View{
         ZStack{
            RoundedRectangle(cornerRadius: 15)
@@ -161,12 +168,12 @@ struct  RecentJobCell : View {
             .foregroundColor(.white)
             HStack{
                 HStack(spacing:10){
-                    Image(job.imageName).resizable()
+                    Image(job.companyLogo).resizable()
                 .frame(width: Screen.maxWidth*0.12, height:  Screen.maxWidth*0.12, alignment: .center)
                 .cornerRadius(10)
                     VStack(alignment:.leading,spacing:3){
-                    Text(job.jobPostion).font(.custom("Verdana", size: 15))
-                    Text("\(job.comanyName) • \(job.jobType)").font(.custom("Verdana", size: 11)).foregroundColor(.gray)
+                    Text(job.jobTitle).font(.custom("Verdana", size: 15))
+                        Text("\(job.companyName) • \(job.jobType)").font(.custom("Verdana", size: 11)).foregroundColor(.gray)
                 }
                 }.padding(.leading)
                 Spacer()
@@ -181,39 +188,26 @@ struct  RecentJobCell : View {
     }
 }
 
-struct PopularJob : Identifiable{
-    let id = UUID()
-    let image : String
-    let minSalary : String
-    let maxSalary : String
-    let position : String
-    let companyName : String
-    let place : String
-    let tags : [String]
-    let theme : Color
-}
 struct PopularJobView : View{
-    var popularJobList : [PopularJob] = [
-        PopularJob(image: "amazon", minSalary: "80", maxSalary: "120", position: "Senior iOS developer", companyName: "Amazon", place: "Cailifornia", tags: ["remote","anytime","developer"], theme: .black),
-        PopularJob(image: "zomato", minSalary: "70", maxSalary: "90", position: "UI/UX designer", companyName: "Zomato", place: "Cailifornia", tags: ["remote","anytime","developer"], theme: .white),
-        PopularJob(image: "nike", minSalary: "50", maxSalary: "80", position: "Junior iOS developer", companyName: "Nike", place: "Cailifornia", tags: ["remote","anytime","developer"], theme: .black),
-        PopularJob(image: "swiggy", minSalary: "65", maxSalary: "90", position: "Android developer", companyName: "Swiggy", place: "Cailifornia", tags: ["remote","anytime","developer"], theme: .white),
-        PopularJob(image: "linkedin", minSalary: "90", maxSalary: "120", position: "Project Manager", companyName: "LinkedIn", place: "Cailifornia", tags: ["remote","anytime","developer"], theme: .white),
-    ]
+    var popularJobList : [Job] = [
+        Job(companyLogo: "nike", companyName: "Nike", aboutCompany: "Nike is a company", jobTitle: "Buisness Analysist", minSalary: 70, maxSalary: 90, jobType: "remote", place: "Mumbai", tags: ["Buisness","Nike","remote"], theme: .black),
+        Job(companyLogo: "zomato", companyName: "Zomato", aboutCompany: "Zomato is a company", jobTitle: "Android Developer", minSalary: 80, maxSalary: 120, jobType: "Full-time", place: "Banglore", tags: ["Buisness","Nike","full-time"], theme: .white),
+        Job(companyLogo: "amazon", companyName: "Amazon", aboutCompany: "Amazon is a ecommerce company", jobTitle: "Logo Designer", minSalary: 70, maxSalary: 80, jobType: "contract", place: "Mumbai", tags: ["Designer","UI/UX","Logo"], theme: .black),
+        Job(companyLogo: "swiggy", companyName: "Swiggy", aboutCompany: "Swiggy is a company", jobTitle: "iOS Developer", minSalary: 90, maxSalary: 110, jobType: "full-time", place: "Mumbai", tags: ["Buisness","Nike","full-time"], theme: .white),
+        Job(companyLogo: "linkedin", companyName: "LinkedIn", aboutCompany: "LinkedIn is a company", jobTitle: "Buisness Analysist", minSalary: 70, maxSalary: 90, jobType: "consultant", place: "Mumbai", tags: ["Buisness","LinkedIn","consultant"], theme: .white),
+]
     var body: some View{
       
         HStack(spacing:Screen.maxWidth*0.05){
-                ForEach(popularJobList){job in
+            ForEach(popularJobList){job in
                     PopularJobCell(job: job)
                 }
             }
-     
-        
     }
 }
 
 struct PopularJobCell : View{
-    let job : PopularJob
+    let job : Job
     var body: some View{
         ZStack{
             RoundedRectangle(cornerRadius: 20.0)
@@ -223,7 +217,7 @@ struct PopularJobCell : View{
             HStack(spacing:Screen.maxWidth*0.3){
                 ZStack{
                     Color.white
-                    Image(job.image)
+                    Image(job.companyLogo)
                     .resizable()
                 } .frame(width: Screen.maxWidth*0.12, height:  Screen.maxWidth*0.12, alignment: .center)
                 .cornerRadius(10)
@@ -232,7 +226,7 @@ struct PopularJobCell : View{
                     .foregroundColor(job.theme == .white ?  .black : .white)
                     .font(.custom("Verdana", size: 15))
             }
-                Text(job.position)
+                Text(job.jobTitle)
                     .foregroundColor(job.theme == .white ?  .black : .white)
                     .font(.custom("Verdana", size: 15))
                 Text("\(job.companyName) • \(job.place)")

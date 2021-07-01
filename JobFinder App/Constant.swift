@@ -26,3 +26,29 @@ class FilterJobData : ObservableObject{
         print(tags)
     }
 }
+
+class Job : ObservableObject,Identifiable{
+    var id = UUID()
+    var companyLogo : String
+    var companyName : String
+    var aboutCompany : String
+    var jobTitle : String
+    var minSalary : Int
+    var maxSalary : Int
+    var jobType : String
+    var place : String
+    var tags : [String]
+    var theme : Color
+    init(companyLogo : String, companyName : String, aboutCompany : String, jobTitle : String,  minSalary : Int, maxSalary : Int,jobType:String, place : String,tags : [String],theme : Color) {
+        self.companyLogo=companyLogo
+        self.companyName=companyName
+        self.aboutCompany=aboutCompany
+        self.jobTitle=jobTitle
+        self.minSalary=minSalary
+        self.maxSalary=maxSalary
+        self.jobType = jobType
+        self.place = place
+        self.tags = tags
+        self.theme=theme
+    }
+}
