@@ -19,12 +19,27 @@ struct DashboardView: View {
             Color("dashboardBackground").ignoresSafeArea()
             VStack(alignment:.leading){
                 HStack{
+                    if !searchTapped{
                 VStack(alignment:.leading,spacing:4){
                     Capsule()
                         .frame(width: Screen.maxWidth*0.08, height: Screen.maxheight*0.004, alignment: .center)
                     Capsule()
                         .frame(width: Screen.maxWidth*0.06, height: Screen.maxheight*0.004, alignment: .center)
                 }
+                        
+                    }else{
+                        ZStack{
+                        Capsule()
+                            .frame(width: Screen.maxWidth*0.06, height: Screen.maxheight*0.002, alignment: .center).rotationEffect(.degrees(45))
+                        Capsule()
+                            .frame(width: Screen.maxWidth*0.06, height: Screen.maxheight*0.002, alignment: .center)
+                            .rotationEffect(.degrees(-45))
+                        }.onTapGesture {
+                            self.searchTapped=false
+                            self.searchText=""
+                            self.jobFilter.isFilterApplied=false
+                        }
+                    }
                 Spacer()
                 VStack(spacing:1){
                     Circle()
@@ -122,17 +137,17 @@ struct DashboardView: View {
                 RecentJobView()
                     .padding(.leading,Screen.maxWidth*0.07)
                     .padding(.trailing,Screen.maxWidth*0.07)
-                    }.overlay(SearchOverlayView().opacity(self.searchTapped ? 1 : 0))
+                    }
             Spacer()
                 }else{
-                    SearchOverlayView()
+                    SearchOverlayView(searchText: $searchText)
                 }
                 }
             }
             }.redacted(reason: isLoading ? .placeholder : [])
             .onAppear{
                 self.isLoading=true
-                DispatchQueue.main.asyncAfter(deadline: .now()+2, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
                     self.isLoading=false
                 })
             }
@@ -153,7 +168,12 @@ struct  RecentJobView : View {
     var body : some View{
         VStack{
             ForEach(recentJobList){job in
-                JobCell(job: job)
+                NavigationLink(
+                    destination:  JobDescriptionView(job: job),
+                    label: {
+                        JobCell(job: job)
+                    })
+               
             }
         }
     }
@@ -183,7 +203,7 @@ struct  JobCell : View {
                     Circle().frame(width: 3, height: 3, alignment: .center)
                 }.padding(.trailing)
             }
-        }
+        }.accentColor(.black)
        
     }
 }

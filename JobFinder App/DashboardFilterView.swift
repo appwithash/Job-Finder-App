@@ -20,6 +20,10 @@ struct DashboardFilterView: View {
     
     var body: some View {
         VStack(spacing:Screen.maxWidth*0.05){
+            Capsule()
+                .frame(width: Screen.maxWidth*0.15, height: Screen.maxheight*0.005, alignment: .center)
+                .foregroundColor(.gray)
+                .offset(y: Screen.maxWidth*0.03)
             Text("Set Filter").font(.custom("Verdana", size: 20)).padding(.top)
             ScrollView(.vertical, showsIndicators: false, content: {
                 VStack(alignment:.leading,spacing:Screen.maxWidth*0.05){
@@ -142,7 +146,6 @@ struct DashboardFilterView: View {
                         }
                         Button(action: {
                             self.presentationMode.wrappedValue.dismiss()
-                            self.jobFilter.showData()
                             self.jobFilter.isFilterApplied = true
                         }, label: {
                             ZStack{

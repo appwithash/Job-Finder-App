@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C5D588B8268E08130093B42A /* SearchOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D588B7268E08130093B42A /* SearchOverlayView.swift */; };
+		C5D588BB268E22810093B42A /* JobDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D588BA268E22810093B42A /* JobDescriptionView.swift */; };
 		C5D6AC0E268B4F77006A90F3 /* DashboardFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D6AC0D268B4F77006A90F3 /* DashboardFilterView.swift */; };
 		C5E5F273268ADA79004B34E4 /* JobFinder_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E5F272268ADA79004B34E4 /* JobFinder_AppApp.swift */; };
 		C5E5F275268ADA79004B34E4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E5F274268ADA79004B34E4 /* ContentView.swift */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		C5D588B7268E08130093B42A /* SearchOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOverlayView.swift; sourceTree = "<group>"; };
+		C5D588BA268E22810093B42A /* JobDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDescriptionView.swift; sourceTree = "<group>"; };
 		C5D6AC0D268B4F77006A90F3 /* DashboardFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardFilterView.swift; sourceTree = "<group>"; };
 		C5E5F26F268ADA79004B34E4 /* JobFinder App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JobFinder App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5E5F272268ADA79004B34E4 /* JobFinder_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobFinder_AppApp.swift; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 				C5E5F274268ADA79004B34E4 /* ContentView.swift */,
 				C5E5F285268AF69C004B34E4 /* DashboardView.swift */,
 				C5D588B7268E08130093B42A /* SearchOverlayView.swift */,
+				C5D588BA268E22810093B42A /* JobDescriptionView.swift */,
 				C5D6AC0D268B4F77006A90F3 /* DashboardFilterView.swift */,
 				C5E5F282268ADB0D004B34E4 /* Constant.swift */,
 				C5E5F276268ADA84004B34E4 /* Assets.xcassets */,
@@ -150,6 +153,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5D588BB268E22810093B42A /* JobDescriptionView.swift in Sources */,
 				C5E5F275268ADA79004B34E4 /* ContentView.swift in Sources */,
 				C5E5F286268AF69D004B34E4 /* DashboardView.swift in Sources */,
 				C5E5F273268ADA79004B34E4 /* JobFinder_AppApp.swift in Sources */,
